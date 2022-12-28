@@ -3,4 +3,5 @@
     <string name="SIMULATE">Simulate</string>
     <string name="TEMPERATURE">Temperature:</string>
     <string name="SPEED">Speed:</string>
+    <string name="SAVE">Save</string>
 </resources>

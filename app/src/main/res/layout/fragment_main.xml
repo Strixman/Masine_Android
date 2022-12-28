@@ -67,4 +67,24 @@
         app:layout_constraintBottom_toTopOf="@+id/speedSlider"
         app:layout_constraintStart_toStartOf="@+id/speedSlider" />
 
+    <Button
+        android:id="@+id/location1Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Location1"
+        app:layout_constraintEnd_toEndOf="@+id/temperatureSlider"
+        app:layout_constraintStart_toEndOf="@+id/location2Button"
+        app:layout_constraintTop_toBottomOf="@+id/temperatureSlider" />
+
+    <Button
+        android:id="@+id/location2Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Location2"
+        app:layout_constraintEnd_toStartOf="@+id/location1Button"
+        app:layout_constraintStart_toStartOf="@+id/temperatureSlider"
+        app:layout_constraintTop_toBottomOf="@+id/temperatureSlider" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

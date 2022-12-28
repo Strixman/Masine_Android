@@ -164,7 +164,7 @@ class Application : android.app.Application() {
         }, durationMs)
     }
 
-    fun simulateLocation(vehicleName: String, startLocation: LatLng, endLocation: LatLng, durationMs: Long, onUpdateCallback: (Vehicle) -> Unit, onFinnishCallback: () -> Unit) {
+    fun simulateLocation(vehicleName: String, startLocation: LatLng, endLocation: LatLng, onUpdateCallback: (Vehicle) -> Unit, onFinnishCallback: () -> Unit) {
         val vehicle = Vehicle(vehicleName, location = startLocation)
 
         Thread{
@@ -172,6 +172,7 @@ class Application : android.app.Application() {
 
             client.enqueueCall(object : Callback<DirectionsResponse> {
                 override fun onResponse(call: Call<DirectionsResponse>, response: Response<DirectionsResponse>) {
+                    if(response.body()?.routes()?.size!! == 0) return;
                     val route = response.body()?.routes()?.get(0)
                     val geometry = route?.geometry()!!
 

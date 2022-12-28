@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    app:startDestination="@id/MainFragment">
+    <fragment
+        android:id="@+id/MainFragment"
+        android:name="com.example.masine.ui.main.MainFragment"
+        android:label="MainFragment">
+        <action
+            android:id="@+id/action_MainFragment_to_MapsFragment"
+            app:destination="@id/MapsFragment" />
+        <argument
+            android:name="latitude"
+            app:argType="float[]" />
+        <argument
+            android:name="longitude"
+            app:argType="float[]" />
+    </fragment>
+    <fragment
+        android:id="@+id/MapsFragment"
+        android:name="com.example.masine.ui.main.MapsFragment"
+        android:label="MapsFragment" >
+        <action
+            android:id="@+id/action_MapsFragment_to_MainFragment"
+            app:destination="@id/MainFragment" />
+        <argument
+            android:name="location"
+            app:argType="integer" />
+        <argument
+            android:name="latitude"
+            app:argType="float[]" />
+        <argument
+            android:name="longitude"
+            app:argType="float[]" />
+    </fragment>
+</navigation>

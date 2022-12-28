@@ -6,20 +6,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import com.example.masine.scripts.Application
 import com.example.masine.databinding.FragmentMainBinding
 import com.mapbox.mapboxsdk.geometry.LatLng
 
 class MainFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = MainFragment()
-    }
 
     private lateinit var app: Application
     private lateinit var binding: FragmentMainBinding
 
     private var simulating = false;
+    private val locations = mutableListOf(LatLng(), LatLng())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +26,14 @@ class MainFragment : Fragment() {
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentMainBinding.inflate(inflater, container, false);
+
+        if(arguments?.containsKey("latitude") == true){
+            val latitude = arguments?.getFloatArray("latitude")!!
+            val longitude = arguments?.getFloatArray("longitude")!!
+
+            locations[0] = LatLng(latitude[0].toDouble(), longitude[0].toDouble());
+            locations[1] = LatLng(latitude[1].toDouble(), longitude[1].toDouble());
+        }
 
         /*binding.simulateButton.setOnClickListener {
             if(simulating) return@setOnClickListener;
@@ -43,12 +50,42 @@ class MainFragment : Fragment() {
             };
         }*/
 
+        binding.location1Button.setOnClickListener {
+            val latitude = FloatArray(2) {
+                locations[0].latitude.toFloat()
+                locations[1].latitude.toFloat()
+            };
+            val longitude = FloatArray(2) {
+                locations[0].longitude.toFloat()
+                locations[1].longitude.toFloat()
+            };
+
+            val action = MainFragmentDirections.actionMainFragmentToMapsFragment(0, latitude, longitude);
+            it.findNavController().navigate(action)
+        }
+
+        binding.location2Button.setOnClickListener {
+            val latitude = FloatArray(2) {
+                locations[0].latitude.toFloat()
+                locations[1].latitude.toFloat()
+            };
+            val longitude = FloatArray(2) {
+                locations[0].longitude.toFloat()
+                locations[1].longitude.toFloat()
+            };
+
+            val action = MainFragmentDirections.actionMainFragmentToMapsFragment(1, latitude, longitude);
+            it.findNavController().navigate(action)
+        }
+
         binding.simulateButton.setOnClickListener {
             if(simulating) return@setOnClickListener;
 
             binding.simulateButton.isClickable = false;
             simulating = true;
-            app.simulateLocation("test1", LatLng(46.557392, 15.646352), LatLng(46.558410, 15.651098), 10000, { vehicle ->
+
+            Log.d("test", locations.toString());
+            app.simulateLocation("test1", locations[0], locations[1], { vehicle ->
                 Log.d("pub", vehicle.location.toString());
             }) {
                 simulating = false;
