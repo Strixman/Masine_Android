@@ -12,8 +12,6 @@ import com.example.masine.databinding.FragmentMainBinding
 import com.mapbox.mapboxsdk.geometry.LatLng
 
 class MainFragment : Fragment() {
-
-
     private lateinit var app: Application
     private lateinit var binding: FragmentMainBinding
 
@@ -51,40 +49,17 @@ class MainFragment : Fragment() {
         }*/
 
         binding.location1Button.setOnClickListener {
-            val latitude = FloatArray(2) {
-                locations[0].latitude.toFloat()
-                locations[1].latitude.toFloat()
-            };
-            val longitude = FloatArray(2) {
-                locations[0].longitude.toFloat()
-                locations[1].longitude.toFloat()
-            };
-
-            val action = MainFragmentDirections.actionMainFragmentToMapsFragment(0, latitude, longitude);
-            it.findNavController().navigate(action)
-        }
-
-        binding.location2Button.setOnClickListener {
-            val latitude = FloatArray(2) {
-                locations[0].latitude.toFloat()
-                locations[1].latitude.toFloat()
-            };
-            val longitude = FloatArray(2) {
-                locations[0].longitude.toFloat()
-                locations[1].longitude.toFloat()
-            };
-
-            val action = MainFragmentDirections.actionMainFragmentToMapsFragment(1, latitude, longitude);
+            val action = MainFragmentDirections.actionMainFragmentToMapsFragment();
             it.findNavController().navigate(action)
         }
 
         binding.simulateButton.setOnClickListener {
             if(simulating) return@setOnClickListener;
+            if(locations[0].latitude == 0.0 && locations[1].latitude == 0.0 && locations[0].longitude == 0.0 && locations[1].longitude == 0.0) return@setOnClickListener
 
             binding.simulateButton.isClickable = false;
             simulating = true;
 
-            Log.d("test", locations.toString());
             app.simulateLocation("test1", locations[0], locations[1], { vehicle ->
                 Log.d("pub", vehicle.location.toString());
             }) {

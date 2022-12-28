@@ -16,6 +16,8 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import java.io.IOException
@@ -26,7 +28,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback  {
 
     private lateinit var searchView: SearchView;
     private lateinit var map: GoogleMap;
-    private var latLng: LatLng? = null
+
+    private var currentMarker = 0;
+    private var numOfMarkers = 0;
+    private val locations = mutableListOf(LatLng(0.0,0.0), LatLng(0.0,0.0))
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentMapsBinding.inflate(inflater, container, false)
@@ -39,7 +44,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback  {
         searchView = binding.searchLocation
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-
+                if(numOfMarkers >= 2) return false
                 val location: String = searchView.query.toString()
                 val addressList : List<Address>?;
 
@@ -55,10 +60,18 @@ class MapsFragment : Fragment(), OnMapReadyCallback  {
                     }
 
                     val address = addressList!![0]
-                    latLng = LatLng(address.latitude, address.longitude)
+                    val latLng = LatLng(address.latitude, address.longitude)
 
-                    map.addMarker(MarkerOptions().position(latLng!!).title(location))
-                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng!!, 16f))
+                    locations[currentMarker] = latLng
+
+                    val marker = map.addMarker(MarkerOptions().position(latLng).title(location))
+                    marker?.tag = currentMarker
+                    if(currentMarker > 0) marker?.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f))
+
+                    currentMarker++
+                    numOfMarkers++
                 }
                 return false
             }
@@ -69,31 +82,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback  {
         })
 
         binding.saveButton.setOnClickListener {
-            if(latLng == null) return@setOnClickListener
-            val latitude : FloatArray;
-            val longitude : FloatArray;
+            if(locations[0].latitude == 0.0 && locations[1].latitude == 0.0 && locations[0].longitude == 0.0 && locations[1].longitude == 0.0) return@setOnClickListener
 
-            if(arguments?.getInt("location") == 0){
-                latitude = FloatArray(2) {
-                    if(it == 0) latLng!!.latitude.toFloat()
-                    else arguments?.getFloatArray("latitude")?.get(1)!!
-                };
-
-                longitude = FloatArray(2) {
-                    if(it == 0) latLng!!.longitude.toFloat()
-                    else arguments?.getFloatArray("longitude")?.get(1)!!
-                };
+            val latitude = FloatArray(2) {
+                locations[it].latitude.toFloat()
             }
-            else{
-                latitude = FloatArray(2) {
-                    if(it == 0) arguments?.getFloatArray("latitude")?.get(0)!!
-                    else latLng!!.latitude.toFloat()
-                };
-
-                longitude = FloatArray(2) {
-                    if(it == 0) arguments?.getFloatArray("longitude")?.get(0)!!
-                    else latLng!!.longitude.toFloat()
-                };
+            val longitude= FloatArray(2) {
+                locations[it].longitude.toFloat()
             }
 
             val action = MapsFragmentDirections.actionMapsFragmentToMainFragment(latitude, longitude);
@@ -107,10 +102,27 @@ class MapsFragment : Fragment(), OnMapReadyCallback  {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map.setOnMapClickListener {
-            latLng = it;
-            map.clear()
-            map.addMarker(MarkerOptions().position(it).title(""))
+            if(numOfMarkers >= 2) return@setOnMapClickListener
+            locations[currentMarker] = it;
+
+            val marker = map.addMarker(MarkerOptions().position(it).title(""))
+            marker?.tag = currentMarker
+            if(currentMarker > 0) marker?.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(it, 16f))
+
+            currentMarker++;
+            numOfMarkers++
+        }
+
+        map.setOnMarkerClickListener {
+            numOfMarkers--;
+
+            currentMarker = it.tag as Int;
+            if(numOfMarkers == 0 && currentMarker == 1) currentMarker = 0;
+
+            it.remove();
+            return@setOnMarkerClickListener true
         }
     }
 }
