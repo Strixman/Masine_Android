@@ -48,7 +48,7 @@ class MainFragment : Fragment() {
             };
         }*/
 
-        binding.location1Button.setOnClickListener {
+        binding.locationButton.setOnClickListener {
             val action = MainFragmentDirections.actionMainFragmentToMapsFragment();
             it.findNavController().navigate(action)
         }
