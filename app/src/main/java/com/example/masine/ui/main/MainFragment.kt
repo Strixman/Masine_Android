@@ -49,7 +49,14 @@ class MainFragment : Fragment() {
         }*/
 
         binding.locationButton.setOnClickListener {
-            val action = MainFragmentDirections.actionMainFragmentToMapsFragment();
+            val latitude = FloatArray(2) {
+                locations[it].latitude.toFloat()
+            }
+            val longitude= FloatArray(2) {
+                locations[it].longitude.toFloat()
+            }
+
+            val action = MainFragmentDirections.actionMainFragmentToMapsFragment(latitude,longitude);
             it.findNavController().navigate(action)
         }
 

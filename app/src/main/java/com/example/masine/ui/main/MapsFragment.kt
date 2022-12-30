@@ -41,6 +41,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback  {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if(arguments?.containsKey("latitude") == true){
+            val latitude = arguments?.getFloatArray("latitude")!!
+            val longitude = arguments?.getFloatArray("longitude")!!
+
+            locations[0] = LatLng(latitude[0].toDouble(), longitude[0].toDouble())
+            locations[1] = LatLng(latitude[1].toDouble(), longitude[1].toDouble())
+        }
+
         searchView = binding.searchLocation
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -81,6 +89,15 @@ class MapsFragment : Fragment(), OnMapReadyCallback  {
             }
         })
 
+        binding.clearButton.setOnClickListener {
+            map.clear()
+            currentMarker = 0
+            numOfMarkers = 0
+
+            locations[0] = LatLng(0.0,0.0)
+            locations[1] = LatLng(0.0,0.0)
+        }
+
         binding.saveButton.setOnClickListener {
             if(locations[0].latitude == 0.0 && locations[1].latitude == 0.0 && locations[0].longitude == 0.0 && locations[1].longitude == 0.0) return@setOnClickListener
 
@@ -101,6 +118,20 @@ class MapsFragment : Fragment(), OnMapReadyCallback  {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+
+        for(location in locations){
+            if(location.latitude != 0.0 || location.longitude != 0.0) {
+                val marker = map.addMarker(MarkerOptions().position(location).title(""))
+                marker?.tag = currentMarker
+                if(currentMarker > 0) marker?.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 16f))
+
+                currentMarker++;
+                numOfMarkers++
+            }
+        }
+
         map.setOnMapClickListener {
             if(numOfMarkers >= 2) return@setOnMapClickListener
             locations[currentMarker] = it;

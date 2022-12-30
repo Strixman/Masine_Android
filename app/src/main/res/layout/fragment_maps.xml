@@ -7,6 +7,15 @@
     tools:context=".ui.main.MapsFragment">
 
     <Button
+        android:id="@+id/clearButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/clear"
+        app:layout_constraintEnd_toEndOf="@+id/searchLocation"
+        app:layout_constraintTop_toBottomOf="@+id/searchLocation" />
+
+    <Button
         android:id="@+id/saveButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,7 +35,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:context="MapsFragment" />
+        tools:context="MapsFragment"/>
 
     <SearchView
         android:id="@+id/searchLocation"

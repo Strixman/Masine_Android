@@ -24,5 +24,11 @@
         <action
             android:id="@+id/action_MapsFragment_to_MainFragment"
             app:destination="@id/MainFragment" />
+        <argument
+            android:name="latitude"
+            app:argType="float[]" />
+        <argument
+            android:name="longitude"
+            app:argType="float[]" />
     </fragment>
 </navigation>
