@@ -27,13 +27,10 @@ import java.util.concurrent.Executors
 import kotlin.time.Duration
 
 class Application : android.app.Application() {
-    private val MAPBOX_ACCESS_TOKEN = "pk.eyJ1Ijoic3RyaXhtYW4xMCIsImEiOiJjbGM1ZDVhMHU0cGpsM3drZWR3bGdib2VrIn0.J_EE1P7EpgcEOGT_EPXYvA"
-    //private val MQTT_SERVER_URL = "tcp://164.8.161.9:3030"
     private val MQTT_SERVER_URL = "tcp://192.168.1.162:3030"
 
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var mqttClient : MqttAndroidClient
-    private var running = false
 
     override fun onCreate() {
         super.onCreate();
@@ -58,15 +55,12 @@ class Application : android.app.Application() {
 
         mqttClient = MqttAndroidClient(this,  MQTT_SERVER_URL, ID);
         mqttClient.connect(options, null, object : IMqttActionListener {
-            override fun onSuccess(asyncActionToken: IMqttToken) {
-                running = true
-            }
+            override fun onSuccess(asyncActionToken: IMqttToken) {}
 
             override fun onFailure(asyncActionToken: IMqttToken, exception: Throwable) {
                 val timer = Timer()
                 timer.schedule(object : TimerTask() {
                     override fun run() {
-                        running = false
                         mqttClient.reconnect()
                     }
                 }, 5000)
@@ -78,7 +72,7 @@ class Application : android.app.Application() {
         for(simulation in simulations) {
             simulation.stop()
         }
-        running = false
+
         simulations.clear()
         mqttClient.disconnect()
     }
@@ -86,25 +80,28 @@ class Application : android.app.Application() {
     val simulations = mutableListOf<Simulation>()
 
     fun addSimulation(vehicleName: String, startLocation: LatLng, endLocation: LatLng) : Simulation? {
+        if(!mqttClient.isConnected) return null
         for(sim in simulations){
-            if(sim.vehicleName == vehicleName) return null;
+            if(sim.vehicleName == vehicleName) return null
         }
 
         val simulation = object: Simulation(vehicleName, startLocation, endLocation){
             override fun onUpdate(timestamp: LocalDateTime) {
                 val messageLocation = MqttMessage(("${vehicleName}$${timestamp}$${vehicle.location.latitude}$${vehicle.location.longitude}").toByteArray())
-                if(running) mqttClient.publish("VehicleLocation", messageLocation, null, null)
+                mqttClient.publish("VehicleLocation", messageLocation, null, null)
 
                 val messageSpeed = MqttMessage(("${vehicleName}$${timestamp}$${vehicle.speed}").toByteArray())
-                if(running) mqttClient.publish("VehicleSpeed", messageSpeed, null, null)
+                mqttClient.publish("VehicleSpeed", messageSpeed, null, null)
 
                 val messageTemperature = MqttMessage(("${vehicleName}$${timestamp}$${vehicle.temperature}").toByteArray())
-                if(running) mqttClient.publish("VehicleTemperature", messageTemperature, null, null)
+                mqttClient.publish("VehicleTemperature", messageTemperature, null, null)
+
+                notifyOnChange?.let { it() }
             }
 
             override fun onFinnish() {
                 val message = MqttMessage(("${vehicleName}$${vehicle.location.latitude}$${vehicle.location.longitude}").toByteArray())
-                if(running) mqttClient.publish("VehicleDisconnected", message, null, null)
+                mqttClient.publish("VehicleDisconnected", message, null, null)
 
                 simulations.remove(this)
                 notifyOnFinnish?.let { it() }
@@ -112,7 +109,7 @@ class Application : android.app.Application() {
 
             override fun onStart() {
                 val message = MqttMessage(("${vehicleName}$${vehicle.location.latitude}$${vehicle.location.longitude}").toByteArray())
-                if(running) mqttClient.publish("VehicleConnected", message, null, null)
+                mqttClient.publish("VehicleConnected", message, null, null)
             }
 
         }

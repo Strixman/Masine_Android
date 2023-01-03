@@ -119,6 +119,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback  {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        val latLng = LatLng(46.554997, 15.645930)
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12f))
 
         for(location in locations){
             if(location.latitude != 0.0 || location.longitude != 0.0) {

@@ -16,7 +16,6 @@ class SimulationFragment : Fragment() {
     private lateinit var binding: FragmentSimulationBinding
 
     private val locations = mutableListOf(LatLng(), LatLng())
-    private val numOfSimulations = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
