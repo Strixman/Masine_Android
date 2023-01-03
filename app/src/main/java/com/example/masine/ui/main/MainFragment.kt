@@ -60,7 +60,7 @@ class MainFragment : Fragment() {
             it.findNavController().navigate(action)
         }
 
-        binding.simulateButton.setOnClickListener {
+        /*binding.simulateButton.setOnClickListener {
             if(simulating) return@setOnClickListener;
             if(locations[0].latitude == 0.0 && locations[1].latitude == 0.0 && locations[0].longitude == 0.0 && locations[1].longitude == 0.0) return@setOnClickListener
 
@@ -73,6 +73,11 @@ class MainFragment : Fragment() {
                 simulating = false;
                 binding.simulateButton.isClickable = true;
             };
+        }*/
+
+        binding.simulateButton.setOnClickListener {
+            val action = MainFragmentDirections.actionMainFragmentToSimulationFragment(null, null)
+            it.findNavController().navigate(action)
         }
 
         return binding.root;

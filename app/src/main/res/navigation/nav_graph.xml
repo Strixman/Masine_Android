@@ -16,6 +16,9 @@
         <argument
             android:name="longitude"
             app:argType="float[]" />
+        <action
+            android:id="@+id/action_MainFragment_to_SimulationFragment"
+            app:destination="@id/SimulationFragment" />
     </fragment>
     <fragment
         android:id="@+id/MapsFragment"
@@ -23,12 +26,33 @@
         android:label="MapsFragment" >
         <action
             android:id="@+id/action_MapsFragment_to_MainFragment"
-            app:destination="@id/MainFragment" />
+            app:destination="@id/MainFragment"
+            app:launchSingleTop="false" />
         <argument
             android:name="latitude"
             app:argType="float[]" />
         <argument
             android:name="longitude"
             app:argType="float[]" />
+        <action
+            android:id="@+id/action_MapsFragment_to_SimulationFragment"
+            app:destination="@id/SimulationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/SimulationFragment"
+        android:name="com.example.masine.ui.main.SimulationFragment"
+        android:label="fragment_simulation"
+        tools:layout="@layout/fragment_simulation" >
+        <argument
+            android:name="latitude"
+            app:argType="float[]"
+            app:nullable="true" />
+        <argument
+            android:name="longitude"
+            app:argType="float[]"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_SimulationFragment_to_MapsFragment"
+            app:destination="@id/MapsFragment" />
     </fragment>
 </navigation>

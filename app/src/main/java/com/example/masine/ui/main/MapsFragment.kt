@@ -54,9 +54,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback  {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if(numOfMarkers >= 2) return false
                 val location: String = searchView.query.toString()
-                val addressList : List<Address>?;
 
                 if(location != ""){
+                    val addressList : List<Address>?
                     val geocoder = Geocoder(requireContext())
 
                     try{
@@ -108,7 +108,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback  {
                 locations[it].longitude.toFloat()
             }
 
-            val action = MapsFragmentDirections.actionMapsFragmentToMainFragment(latitude, longitude);
+            val action = MapsFragmentDirections.actionMapsFragmentToSimulationFragment(latitude, longitude);
+            //val action = MapsFragmentDirections.actionMapsFragmentToMainFragment(latitude, longitude);
             it.findNavController().navigate(action)
         }
 
