@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.location.Location
 import android.location.LocationManager
+import android.util.Log
 import com.mapbox.mapboxsdk.geometry.LatLng
 import info.mqtt.android.service.MqttAndroidClient
 import org.eclipse.paho.client.mqttv3.IMqttActionListener
@@ -17,8 +18,6 @@ import java.util.*
 
 @SuppressLint("MissingPermission")
 class Application : android.app.Application() {
-    private val MQTT_SERVER_URL = "tcp://192.168.1.162:3030"
-
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var mqttClient : MqttAndroidClient
 
@@ -28,14 +27,13 @@ class Application : android.app.Application() {
     lateinit var obd: OBD
     val simulations = Simulations()
 
-    private lateinit var ID : String
-
     override fun onCreate() {
         super.onCreate();
         bluetoothManager = this.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         sharedPreferences = getSharedPreferences(applicationInfo.name, Context.MODE_PRIVATE)
+        val ID : String
         if(!sharedPreferences.contains("ID")){
             ID = UUID.randomUUID().toString()
 
@@ -47,14 +45,17 @@ class Application : android.app.Application() {
             ID = sharedPreferences.getString("ID", "")!!;
         }
 
+        val address = sharedPreferences.getString("address", "tcp://127.0.0.1:3030")!!
+
         val options = MqttConnectOptions()
         options.isAutomaticReconnect = true
         options.isCleanSession = false
 
-        mqttClient = MqttAndroidClient(this,  MQTT_SERVER_URL, ID);
+        mqttClient = MqttAndroidClient(this,  address, ID);
         mqttClient.connect(options, null, object : IMqttActionListener {
             override fun onSuccess(asyncActionToken: IMqttToken) {
-
+                val message = MqttMessage(("CONNECTED").toByteArray())
+                mqttClient.publish("CONNECTED", message, null, null)
             }
 
             override fun onFailure(asyncActionToken: IMqttToken, exception: Throwable) {
@@ -102,19 +103,26 @@ class Application : android.app.Application() {
     }
 
     fun onDestroy(){
+        if(mqttClient.isConnected){
+            val message = MqttMessage(("DISCONNECTED").toByteArray())
+            mqttClient.publish("DISCONNECTED", message, null, null)
+        }
         simulations.clear()
-        mqttClient.disconnect()
+
+        if(mqttClient.isConnected){
+            mqttClient.disconnect()
+        }
     }
 
-    fun saveVehicleName(name: String){
+    fun setStorage(key:String, value: String){
         val editor = sharedPreferences.edit()
-        editor.putString("vehicleName", name)
+        editor.putString(key, value)
         editor.apply()
 
-        obd.setName(name)
+        if(key == "vehicleName") obd.setName(value)
     }
-    fun getVehicleName() : String{
-        return sharedPreferences.getString("vehicleName", "name")!!
+    fun getStorage(key: String) : String{
+        return sharedPreferences.getString(key, "")!!
     }
 
     fun addSimulation(vehicleName: String, startLocation: LatLng, endLocation: LatLng, minSpeed: Float, maxSpeed: Float, minTemperature: Float, maxTemperature: Float) : Boolean {
@@ -130,7 +138,7 @@ class Application : android.app.Application() {
                     val messageTemperature = MqttMessage(("${vehicleName}$${time}$${temperature}").toByteArray())
                     mqttClient.publish("VehicleTemperature", messageTemperature, null, null)
 
-                    val messageRPM = MqttMessage(("${vehicleName}$${time}$${temperature}").toByteArray())
+                    val messageRPM = MqttMessage(("${vehicleName}$${time}$${rpm}").toByteArray())
                     mqttClient.publish("VehicleRPM", messageRPM, null, null)
                 }
             }

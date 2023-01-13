@@ -93,7 +93,7 @@ abstract class Simulation(val vehicleName: String, private val startLocation: La
                                     Thread.sleep(200)
                                 }
                                 catch (_:InterruptedException){
-                                    break@loop
+                                    return@Thread
                                 }
 
                                 d += 0.01

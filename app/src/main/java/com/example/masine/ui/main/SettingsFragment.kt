@@ -29,16 +29,20 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val name = app.getVehicleName()
+        val name = app.getStorage("vehicleName")
         binding.vehicleNameSettingsInput.setText(name)
 
+        val address = app.getStorage("address")
+        binding.mqttAddressInput.setText(address)
+
         binding.saveButton.setOnClickListener {
-            if(binding.vehicleNameSettingsInput.text.toString() == "" || binding.vehicleNameSettingsInput.text.toString() == name) {
-                onError("Invalid or same name")
+            if((binding.vehicleNameSettingsInput.text.toString() == "" || binding.vehicleNameSettingsInput.text.toString() == name) && (binding.mqttAddressInput.text.toString() == "") || binding.mqttAddressInput.text.toString() == address) {
+                onError("Invalid or same")
                 return@setOnClickListener
             }
 
-            app.saveVehicleName(binding.vehicleNameSettingsInput.text.toString())
+            app.setStorage("address", binding.mqttAddressInput.text.toString())
+            app.setStorage("vehicleName", binding.vehicleNameSettingsInput.text.toString())
 
             val action = SettingsFragmentDirections.actionSettingsFragmentToMainFragment()
             view.findNavController().navigate(action)
