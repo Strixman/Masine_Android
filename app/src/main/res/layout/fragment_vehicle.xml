@@ -50,7 +50,7 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/stopButton"
+        app:layout_constraintBottom_toTopOf="@+id/obdButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/temperature"
@@ -111,12 +111,14 @@
         android:id="@+id/vehicleName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Vehicle: "
+
+        android:layout_marginTop="30dp"
+        android:text=""
         android:textColor="#000000"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_marginTop="30dp"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

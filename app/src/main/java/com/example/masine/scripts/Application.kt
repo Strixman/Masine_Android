@@ -6,15 +6,12 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.location.Location
 import android.location.LocationManager
-import android.util.Log
-import androidx.core.content.getSystemService
 import com.mapbox.mapboxsdk.geometry.LatLng
 import info.mqtt.android.service.MqttAndroidClient
 import org.eclipse.paho.client.mqttv3.IMqttActionListener
 import org.eclipse.paho.client.mqttv3.IMqttToken
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions
 import org.eclipse.paho.client.mqttv3.MqttMessage
-import java.security.Provider
 import java.time.LocalDateTime
 import java.util.*
 
@@ -29,8 +26,9 @@ class Application : android.app.Application() {
     lateinit var locationManager: LocationManager
 
     lateinit var obd: OBD
+    val simulations = Simulations()
 
-    val simulations = mutableListOf<Simulation>()
+    //val simulations = mutableListOf<Simulation>()
 
     lateinit var ID : String
 
@@ -105,50 +103,42 @@ class Application : android.app.Application() {
     }
 
     fun onDestroy(){
-        for(simulation in simulations) {
-            simulation.stop()
-        }
         simulations.clear()
-
         mqttClient.disconnect()
     }
 
-    fun addSimulation(vehicleName: String, startLocation: LatLng, endLocation: LatLng) : Simulation? {
-        if(!mqttClient.isConnected) return null
-        for(sim in simulations){
-            if(sim.vehicleName == vehicleName) return null
-        }
+    fun addSimulation(vehicleName: String, startLocation: LatLng, endLocation: LatLng, minSpeed: Float, maxSpeed: Float, minTemperature: Float, maxTemperature: Float) : Boolean {
+        val simulation = object: Simulation(vehicleName, startLocation, endLocation, minSpeed, maxSpeed, minTemperature, maxTemperature){
+            override fun onUpdate(timestamp: LocalDateTime, location: LatLng, speed : Float, temperature: Float, rpm : Float) {
+                if(mqttClient.isConnected){
+                    val messageLocation = MqttMessage(("${vehicleName}$${timestamp}$${location.latitude}$${location.longitude}").toByteArray())
+                    mqttClient.publish("VehicleLocation", messageLocation, null, null)
 
-        val simulation = object: Simulation(vehicleName, startLocation, endLocation){
-            override fun onUpdate(timestamp: LocalDateTime) {
-                val messageLocation = MqttMessage(("${vehicleName}$${timestamp}$${vehicle.location.latitude}$${vehicle.location.longitude}").toByteArray())
-                mqttClient.publish("VehicleLocation", messageLocation, null, null)
+                    val messageSpeed = MqttMessage(("${vehicleName}$${timestamp}$${speed}").toByteArray())
+                    mqttClient.publish("VehicleSpeed", messageSpeed, null, null)
 
-                val messageSpeed = MqttMessage(("${vehicleName}$${timestamp}$${vehicle.speed}").toByteArray())
-                mqttClient.publish("VehicleSpeed", messageSpeed, null, null)
-
-                val messageTemperature = MqttMessage(("${vehicleName}$${timestamp}$${vehicle.temperature}").toByteArray())
-                mqttClient.publish("VehicleTemperature", messageTemperature, null, null)
-
-                notifyOnChange?.let { it() }
+                    val messageTemperature = MqttMessage(("${vehicleName}$${timestamp}$${temperature}").toByteArray())
+                    mqttClient.publish("VehicleTemperature", messageTemperature, null, null)
+                }
             }
 
-            override fun onFinnish() {
-                val message = MqttMessage(("${vehicleName}$${vehicle.location.latitude}$${vehicle.location.longitude}").toByteArray())
-                mqttClient.publish("VehicleDisconnected", message, null, null)
+            override fun onFinnish(location: LatLng) {
+                if(mqttClient.isConnected){
+                    val message = MqttMessage(("${vehicleName}$${location.latitude}$${location.longitude}").toByteArray())
+                    mqttClient.publish("VehicleDisconnected", message, null, null)
+                }
 
                 simulations.remove(this)
-                notifyOnFinnish?.let { it() }
             }
 
-            override fun onStart() {
-                val message = MqttMessage(("${vehicleName}$${vehicle.location.latitude}$${vehicle.location.longitude}").toByteArray())
-                mqttClient.publish("VehicleConnected", message, null, null)
+            override fun onStart(location: LatLng) {
+                if(mqttClient.isConnected) {
+                    val message = MqttMessage(("${vehicleName}$${location.latitude}$${location.longitude}").toByteArray())
+                    mqttClient.publish("VehicleConnected", message, null, null)
+                }
             }
-
         }
 
-        simulations.add(simulation)
-        return simulation
+        return simulations.add(simulation)
     }
 }

@@ -1,6 +1,10 @@
 package com.example.masine.scripts
 
+import android.location.Location
 import android.util.Log
+import com.github.pires.obd.commands.SpeedCommand
+import com.github.pires.obd.commands.engine.RPMCommand
+import com.github.pires.obd.commands.temperature.EngineCoolantTemperatureCommand
 import com.mapbox.api.directions.v5.MapboxDirections
 import com.mapbox.api.directions.v5.models.DirectionsResponse
 import com.mapbox.geojson.Point
@@ -20,13 +24,18 @@ import java.util.*
 
 val MAPBOX_ACCESS_TOKEN = "pk.eyJ1Ijoic3RyaXhtYW4xMCIsImEiOiJjbGM1ZDVhMHU0cGpsM3drZWR3bGdib2VrIn0.J_EE1P7EpgcEOGT_EPXYvA"
 
-abstract class Simulation(val vehicleName: String,var startLocation: LatLng,var endLocation: LatLng){
-    val vehicle = Vehicle(vehicleName, startLocation, 90.0, 50.0)
+abstract class Simulation(val vehicleName: String, private val startLocation: LatLng, private val endLocation: LatLng, val minSpeed: Float,val maxSpeed: Float,val minTemperature: Float,val maxTemperature: Float){
+    var speed = minSpeed
+    var temperature = minTemperature
+    var rpm = speed * 60f
+    var location = startLocation
 
     var simulating = false
     private lateinit var thread: Thread
-    var notifyOnChange : (() -> Unit)? = null
-    var notifyOnFinnish : (() -> Unit)? = null
+
+    var UICallback : (() -> Unit)? = null
+    var StopUICallback : (() -> Unit)? = null
+    var StartUICallback : (() -> Unit)? = null
 
     fun start(){
         if(simulating) return
@@ -36,7 +45,8 @@ abstract class Simulation(val vehicleName: String,var startLocation: LatLng,var 
         client.enqueueCall(object : Callback<DirectionsResponse> {
             override fun onResponse(call: Call<DirectionsResponse>, response: Response<DirectionsResponse>) {
                 thread = Thread{
-                    onStart()
+                    onStart(location)
+                    StartUICallback?.let { it() }
 
                     val rng = Random()
                     if(response.body()?.routes()?.size!! > 0) {
@@ -54,16 +64,14 @@ abstract class Simulation(val vehicleName: String,var startLocation: LatLng,var 
 
                             var d = 0.0;
                             while(simulating && d < dist){
-                                vehicle.location = LatLng(firstPoint.latitude() - dirVec1.latitude() * d,firstPoint.longitude() - dirVec1.longitude() * d)
+                                location = LatLng(firstPoint.latitude() - dirVec1.latitude() * d,firstPoint.longitude() - dirVec1.longitude() * d)
 
-                                val speed = 0.01 //TODO adjust with real speed
-                                val num = rng.nextDouble() * 3
-                                if(rng.nextBoolean()) vehicle.speed += num
-                                else vehicle.speed -= num
+                                speed = minSpeed + rng.nextFloat() * (maxSpeed-minSpeed)
+                                temperature = minTemperature + rng.nextFloat() * (maxTemperature-minTemperature)
+                                rpm = speed * 60
 
-                                d += speed
-
-                                onUpdate(LocalDateTime.now())
+                                onUpdate(LocalDateTime.now(), location, speed, temperature, rpm)
+                                UICallback?.let { it() }
 
                                 try{
                                     Thread.sleep(200)
@@ -72,11 +80,13 @@ abstract class Simulation(val vehicleName: String,var startLocation: LatLng,var 
                                     break@loop
                                 }
 
+                                d += 0.01
                             }
                         }
                     }
 
-                    onFinnish()
+                    onFinnish(location)
+                    StopUICallback?.let { it() }
                     simulating = false
 
                 }
@@ -84,7 +94,8 @@ abstract class Simulation(val vehicleName: String,var startLocation: LatLng,var 
             }
 
             override fun onFailure(call: Call<DirectionsResponse>, t: Throwable) {
-                onFinnish()
+                onFinnish(location)
+                StopUICallback?.let { it() }
                 simulating = false
             }
         })
@@ -95,7 +106,7 @@ abstract class Simulation(val vehicleName: String,var startLocation: LatLng,var 
         thread.join()
     }
 
-    abstract fun onUpdate(timestamp: LocalDateTime)
-    abstract fun onFinnish()
-    abstract fun onStart()
+    abstract fun onUpdate(timestamp: LocalDateTime, location: LatLng, speed : Float, temperature: Float, rpm : Float)
+    abstract fun onFinnish(location: LatLng)
+    abstract fun onStart(location: LatLng)
 }

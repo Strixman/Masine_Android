@@ -20,34 +20,38 @@ class SimulationRecyclerViewAdapter(private val activity: Activity, private val 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val simulation = simulations[position]
 
-        simulation.notifyOnChange = {
+        simulation.UICallback = {
             activity.runOnUiThread{
                 notifyItemChanged(position)
             }
         }
-        simulation.notifyOnFinnish = {
+        simulation.StopUICallback = {
             activity.runOnUiThread{
                 notifyItemRemoved(position)
                 notifyItemRangeChanged(position, simulations.size)
             }
         }
 
-        holder.location.text = simulation.vehicle.location.toString()
-        holder.speed.text = simulation.vehicle.speed.toString()
-        holder.temperature.text = simulation.vehicle.temperature.toString()
+        holder.speed.withTremble = false
+        holder.temperature.withTremble = false
+        holder.rpm.withTremble = false
 
-        holder.removeButton.setOnClickListener {
-            simulation.stop()
-        }
+
+        //holder.location.text = simulation.location.toString()
+        holder.location.text = "Location: ${String.format("%.5f", simulation.location.latitude)}, ${String.format("%.5f", simulation.location.longitude)}"
+        holder.speed.setSpeedAt(simulation.speed)
+        holder.temperature.setSpeedAt(simulation.temperature)
+        holder.rpm.setSpeedAt(simulation.rpm)
+
     }
 
     override fun getItemCount(): Int = simulations.size
 
     inner class ViewHolder(binding: FragmentSimulationItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        val location: TextView = binding.location
-        val speed: TextView = binding.speed
-        val temperature: TextView = binding.temperature
-        val removeButton = binding.removeButton
+        val location = binding.location
+        val speed = binding.speed
+        val temperature = binding.temperature
+        val rpm = binding.rpm
     }
 
 }

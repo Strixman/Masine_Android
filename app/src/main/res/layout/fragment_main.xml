@@ -5,77 +5,72 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
     tools:context=".ui.main.MainFragment">
 
     <TextView
-        android:id="@+id/text1"
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/SIMULATE"
-        app:layout_constraintBottom_toTopOf="@+id/simulateButton"
+        android:fontFamily="sans-serif-black"
+        android:text="MASINE"
+        android:textColor="#000000"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-10dp"
+        android:text="OBD"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/simulateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/SIMULATE"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/button_background"
+        android:paddingHorizontal="5dp"
+        android:text="SIMULATE"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text1" />
+        app:layout_constraintTop_toBottomOf="@+id/startButton" />
 
-    <SeekBar
-        android:id="@+id/temperatureSlider"
-        android:layout_width="350dp"
-        android:layout_height="23dp"
-        android:progress="50"
-        app:layout_constraintBottom_toTopOf="@+id/simulateButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text1" />
-
-    <SeekBar
-        android:id="@+id/speedSlider"
-        android:layout_width="350dp"
-        android:layout_height="23dp"
-        android:progress="50"
-        app:layout_constraintBottom_toTopOf="@+id/simulateButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text1"
-        app:layout_constraintVertical_bias="0.231" />
-
-    <TextView
-        android:id="@+id/text2"
+    <androidx.appcompat.widget.AppCompatButton
+        android:scaleX="1.7"
+        android:scaleY="1.7"
+        android:id="@+id/startButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/TEMPERATURE"
-        app:layout_constraintBottom_toTopOf="@+id/temperatureSlider"
-        app:layout_constraintStart_toStartOf="@+id/temperatureSlider" />
-
-    <TextView
-        android:id="@+id/text3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/SPEED"
-        app:layout_constraintBottom_toTopOf="@+id/speedSlider"
-        app:layout_constraintStart_toStartOf="@+id/speedSlider" />
-
-    <Button
-        android:id="@+id/locationButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Locations"
+        android:background="@drawable/button_background"
+        android:paddingHorizontal="5dp"
+        android:text="START"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/temperatureSlider" />
+        app:layout_constraintTop_toBottomOf="@+id/guideline4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

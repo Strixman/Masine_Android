@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
     tools:context=".ui.main.SimulationFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -10,37 +11,29 @@
         android:name=".ui.main.SimulationFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_margin="20dp"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/addSimulationButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vehicleName"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/fragment_simulation_item" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/addSimulationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/ADD"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/button_background"
+        android:paddingHorizontal="5dp"
+        android:text="NEW SIMULATION"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/vehicleName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        app:layout_constraintEnd_toStartOf="@+id/locations"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/locations"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="LOCATIONS"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

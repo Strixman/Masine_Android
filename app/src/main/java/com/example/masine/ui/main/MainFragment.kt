@@ -23,21 +23,21 @@ class MainFragment : Fragment() {
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentMainBinding.inflate(inflater, container, false);
-
-        binding.locationButton.setOnClickListener {
-            val action = MainFragmentDirections.actionMainFragmentToVehicleFragment();
-            it.findNavController().navigate(action)
-        }
-
-        binding.simulateButton.setOnClickListener {
-            val action = MainFragmentDirections.actionMainFragmentToSimulationFragment(null, null)
-            it.findNavController().navigate(action)
-        }
         return binding.root;
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.startButton.setOnClickListener {
+            val action = MainFragmentDirections.actionMainFragmentToVehicleFragment();
+            view.findNavController().navigate(action)
+        }
+
+        binding.simulateButton.setOnClickListener {
+            val action = MainFragmentDirections.actionMainFragmentToSimulationFragment()
+            view.findNavController().navigate(action)
+        }
 
         requestMultiplePermissions.launch(arrayOf(Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION))
     }

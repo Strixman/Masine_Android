@@ -1,5 +1,6 @@
 package com.example.masine.ui.main
 
+import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
@@ -8,46 +9,48 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import androidx.core.os.bundleOf
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.example.masine.databinding.FragmentMapsBinding
+import com.example.masine.databinding.FragmentSimulationAddBinding
+import com.example.masine.scripts.Application
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.snackbar.Snackbar
 import java.io.IOException
 
 
-class MapsFragment : Fragment(), OnMapReadyCallback  {
-    private lateinit var binding: FragmentMapsBinding
+class SimulationAddFragment : Fragment(), OnMapReadyCallback  {
+    private lateinit var app: Application
+    private lateinit var binding: FragmentSimulationAddBinding
 
     private lateinit var searchView: SearchView;
     private lateinit var map: GoogleMap;
 
-    private var currentMarker = 0;
-    private var numOfMarkers = 0;
-    private val locations = mutableListOf(LatLng(0.0,0.0), LatLng(0.0,0.0))
+    private var currentMarker = 0
+    private var numOfMarkers = 0
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentMapsBinding.inflate(inflater, container, false)
+    private val locations = arrayOf(LatLng(0.0,0.0), LatLng(0.0,0.0))
+    private val speed = floatArrayOf(-1.0f, -1.0f)
+    private val temperature = floatArrayOf(-1.0f, -1.0f)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        app = requireActivity().application as Application;
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentSimulationAddBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        if(arguments?.containsKey("latitude") == true){
-            val latitude = arguments?.getFloatArray("latitude")!!
-            val longitude = arguments?.getFloatArray("longitude")!!
-
-            locations[0] = LatLng(latitude[0].toDouble(), longitude[0].toDouble())
-            locations[1] = LatLng(latitude[1].toDouble(), longitude[1].toDouble())
-        }
 
         searchView = binding.searchLocation
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -89,6 +92,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback  {
             }
         })
 
+        binding.searchButton.setOnClickListener {
+            searchView.setQuery(searchView.query, true)
+        }
+
         binding.clearButton.setOnClickListener {
             map.clear()
             currentMarker = 0
@@ -98,19 +105,43 @@ class MapsFragment : Fragment(), OnMapReadyCallback  {
             locations[1] = LatLng(0.0,0.0)
         }
 
+        binding.minSpeed.addTextChangedListener {
+            speed[0] = binding.minSpeed.text.toString().toFloat()
+        }
+        binding.maxSpeed.addTextChangedListener {
+            speed[1] = binding.maxSpeed.text.toString().toFloat()
+        }
+
+        binding.minTemperature.addTextChangedListener {
+            temperature[0] = binding.minTemperature.text.toString().toFloat()
+        }
+        binding.maxTemperature.addTextChangedListener {
+            temperature[1] = binding.maxTemperature.text.toString().toFloat()
+        }
+
         binding.saveButton.setOnClickListener {
-            if(locations[0].latitude == 0.0 && locations[1].latitude == 0.0 && locations[0].longitude == 0.0 && locations[1].longitude == 0.0) return@setOnClickListener
-
-            val latitude = FloatArray(2) {
-                locations[it].latitude.toFloat()
+            Log.d("test",temperature[0].toString())
+            if(locations[0].latitude == 0.0 && locations[1].latitude == 0.0 && locations[0].longitude == 0.0 && locations[1].longitude == 0.0) {
+                onError("Location not set")
+                return@setOnClickListener
             }
-            val longitude= FloatArray(2) {
-                locations[it].longitude.toFloat()
+            if(speed[0] < 0 || speed[1] < 0 || temperature[0] < 0 || temperature[1] < 0 || speed[1] < speed[0] || temperature[1] < temperature[0]) {
+                onError("Speed or temperature invalid")
+                return@setOnClickListener
             }
 
-            val action = MapsFragmentDirections.actionMapsFragmentToSimulationFragment(latitude, longitude);
-            //val action = MapsFragmentDirections.actionMapsFragmentToMainFragment(latitude, longitude);
-            it.findNavController().navigate(action)
+            if(binding.vehicleNameInput.text.toString() == ""){
+                onError("Invalid vehicle name")
+                return@setOnClickListener
+            }
+
+            if(!app.addSimulation(binding.vehicleNameInput.text.toString(), com.mapbox.mapboxsdk.geometry.LatLng(locations[0].latitude, locations[0].longitude),  com.mapbox.mapboxsdk.geometry.LatLng(locations[1].latitude, locations[1].longitude), speed[0], speed[1], temperature[0], temperature[1])){
+                onError("Error creating simulation")
+                return@setOnClickListener
+            }
+
+            val action = SimulationAddFragmentDirections.actionMapsFragmentToSimulationFragment();
+            view.findNavController().navigate(action)
         }
 
         val mapFragment = childFragmentManager.findFragmentById(binding.map.id) as SupportMapFragment?
@@ -158,5 +189,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback  {
             it.remove();
             return@setOnMarkerClickListener true
         }
+    }
+
+    private fun onError(message: String){
+        val error = Snackbar.make(binding.root, message, 1500)
+        error.view.setBackgroundColor(Color.CYAN)
+        error.show()
     }
 }

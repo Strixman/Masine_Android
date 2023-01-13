@@ -30,6 +30,11 @@ class VehicleFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentVehicleBinding.inflate(inflater, container, false);
+        return binding.root;
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         binding.speed.withTremble = false
         binding.temperature.withTremble = false
@@ -82,8 +87,6 @@ class VehicleFragment : Fragment() {
                 binding.obdButton.text = "CONNECTING"
             }
         }
-
-        return binding.root;
     }
 
     override fun onDestroy() {
@@ -115,7 +118,7 @@ class VehicleFragment : Fragment() {
     }
     private fun onError(message: String){
         val error = Snackbar.make(binding.root, message, 1500)
-        error.view.setBackgroundColor(Color.RED)
+        error.view.setBackgroundColor(Color.CYAN)
         error.show()
     }
 }
