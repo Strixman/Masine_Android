@@ -28,9 +28,7 @@ class Application : android.app.Application() {
     lateinit var obd: OBD
     val simulations = Simulations()
 
-    //val simulations = mutableListOf<Simulation>()
-
-    lateinit var ID : String
+    private lateinit var ID : String
 
     override fun onCreate() {
         super.onCreate();
@@ -69,7 +67,8 @@ class Application : android.app.Application() {
             }
         })
 
-        obd = object : OBD("TEST1", locationManager){
+        val name = sharedPreferences.getString("vehicleName", "test")
+        obd = object : OBD(name!!, locationManager){
             override fun onUpdate(time: LocalDateTime, location: Location, speed: Float, temperature: Float, rpm: Int) {
                 if(mqttClient.isConnected){
                     val messageLocation = MqttMessage(("${vehicleName}$${time}$${location.latitude}$${location.longitude}").toByteArray())
@@ -105,6 +104,17 @@ class Application : android.app.Application() {
     fun onDestroy(){
         simulations.clear()
         mqttClient.disconnect()
+    }
+
+    fun saveVehicleName(name: String){
+        val editor = sharedPreferences.edit()
+        editor.putString("vehicleName", name)
+        editor.apply()
+
+        obd.setName(name)
+    }
+    fun getVehicleName() : String{
+        return sharedPreferences.getString("vehicleName", "name")!!
     }
 
     fun addSimulation(vehicleName: String, startLocation: LatLng, endLocation: LatLng, minSpeed: Float, maxSpeed: Float, minTemperature: Float, maxTemperature: Float) : Boolean {

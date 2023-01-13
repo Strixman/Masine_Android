@@ -58,6 +58,22 @@
         app:layout_constraintTop_toBottomOf="@+id/startButton" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/settingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/button_background"
+        android:paddingHorizontal="5dp"
+        android:text="SETTINGS"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/simulateButton"
+        android:layout_marginTop="10dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
         android:scaleX="1.7"
         android:scaleY="1.7"
         android:id="@+id/startButton"

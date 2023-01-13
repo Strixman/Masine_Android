@@ -39,6 +39,11 @@ class MainFragment : Fragment() {
             view.findNavController().navigate(action)
         }
 
+        binding.settingsButton.setOnClickListener {
+            val action = MainFragmentDirections.actionMainFragmentToSettingsFragment()
+            view.findNavController().navigate(action)
+        }
+
         requestMultiplePermissions.launch(arrayOf(Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION))
     }
 

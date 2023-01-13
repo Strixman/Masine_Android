@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_MainFragment_to_vehicleFragment"
             app:destination="@id/vehicleFragment" />
+        <action
+            android:id="@+id/action_MainFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/SimulationAddFragment"
@@ -35,4 +38,13 @@
         android:id="@+id/vehicleFragment"
         android:name="com.example.masine.ui.main.VehicleFragment"
         android:label="VehicleFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.masine.ui.main.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_MainFragment"
+            app:destination="@id/MainFragment" />
+    </fragment>
 </navigation>

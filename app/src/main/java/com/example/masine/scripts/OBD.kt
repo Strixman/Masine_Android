@@ -20,7 +20,7 @@ import java.util.*
 
 
 @SuppressLint("MissingPermission")
-abstract class OBD(val vehicleName : String, locationManager: LocationManager) {
+abstract class OBD(var vehicleName : String, locationManager: LocationManager) {
     private val DEVICE_UUID = "00001101-0000-1000-8000-00805F9B34FB"
 
     private var socket: BluetoothSocket? = null
@@ -122,4 +122,8 @@ abstract class OBD(val vehicleName : String, locationManager: LocationManager) {
     abstract fun onUpdate(time: LocalDateTime, location: Location, speed : Float, temperature: Float, rpm : Int)
     abstract fun onStart(location: Location)
     abstract fun onStop(location: Location)
+
+    fun setName(vehicleName: String){
+        this.vehicleName = vehicleName
+    }
 }
