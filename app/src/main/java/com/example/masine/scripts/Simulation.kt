@@ -21,7 +21,7 @@ import java.util.*
 val MAPBOX_ACCESS_TOKEN = "pk.eyJ1Ijoic3RyaXhtYW4xMCIsImEiOiJjbGM1ZDVhMHU0cGpsM3drZWR3bGdib2VrIn0.J_EE1P7EpgcEOGT_EPXYvA"
 
 abstract class Simulation(val vehicleName: String,var startLocation: LatLng,var endLocation: LatLng){
-    val vehicle : Vehicle = Vehicle(vehicleName, startLocation, 90.0, 50.0)
+    val vehicle = Vehicle(vehicleName, startLocation, 90.0, 50.0)
 
     var simulating = false
     private lateinit var thread: Thread
@@ -92,6 +92,7 @@ abstract class Simulation(val vehicleName: String,var startLocation: LatLng,var 
     fun stop(){
         if(!simulating) return
         thread.interrupt()
+        thread.join()
     }
 
     abstract fun onUpdate(timestamp: LocalDateTime)

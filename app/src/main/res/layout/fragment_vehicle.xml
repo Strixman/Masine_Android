@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
+    tools:context=".VehicleFragment">
+
+    <com.github.anastr.speedviewlib.PointerSpeedometer
+        android:id="@+id/speed"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/temperature"
+        app:layout_constraintTop_toBottomOf="@+id/vehicleName"
+        app:sv_backgroundCircleColor="#00000000"
+        app:sv_indicatorColor="@color/black"
+        app:sv_markColor="@color/black"
+        app:sv_maxSpeed="270"
+        app:sv_pointerColor="@color/black"
+        app:sv_speedTextColor="@color/black"
+        app:sv_speedometerColor="@color/black"
+        app:sv_textColor="@color/black"
+        app:sv_unitTextColor="@color/black"
+        android:layout_marginTop="20dp"
+        app:sv_endDegree="400"
+        app:sv_startDegree="140"/>
+
+    <com.github.anastr.speedviewlib.TubeSpeedometer
+        android:id="@+id/temperature"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/rpm"
+        app:layout_constraintTop_toBottomOf="@+id/speed"
+        app:sv_maxSpeed="180"
+        app:sv_endDegree="360"
+        app:sv_speedTextPosition="BOTTOM_CENTER"
+        app:sv_speedometerBackColor="@color/black"
+        app:sv_speedometerWidth="20dp"
+        app:sv_startDegree="180"
+        app:sv_unit="°C" />
+
+    <com.github.anastr.speedviewlib.TubeSpeedometer
+        android:id="@+id/rpm"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/stopButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/temperature"
+        app:sv_endDegree="360"
+        app:sv_maxSpeed="12000"
+        app:sv_speedTextPosition="BOTTOM_CENTER"
+        app:sv_speedometerBackColor="@color/black"
+        app:sv_speedometerWidth="20dp"
+        app:sv_startDegree="180"
+        app:sv_unit="RPM" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/obdButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/button_background"
+        android:text=""
+        android:paddingHorizontal="5dp"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/temperature"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/temperature" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rpm"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/rpm" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <TextView
+        android:id="@+id/vehicleName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vehicle: "
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/speed"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/speed" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -38,7 +38,6 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
@@ -62,4 +61,8 @@ dependencies {
     implementation 'com.mapbox.mapboxsdk:mapbox-sdk-services:5.8.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.1'
     implementation 'com.mapbox.mapboxsdk:mapbox-sdk-turf:5.8.0'
+
+    implementation 'com.github.pires:obd-java-api:1.0'
+
+    implementation 'com.github.anastr:speedviewlib:1.6.0'
 }
