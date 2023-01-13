@@ -106,17 +106,21 @@ class SimulationAddFragment : Fragment(), OnMapReadyCallback  {
         }
 
         binding.minSpeed.addTextChangedListener {
-            speed[0] = binding.minSpeed.text.toString().toFloat()
+            if(binding.minSpeed.text.toString() == "") speed[0] = -1f
+            else speed[0] = binding.minSpeed.text.toString().toFloat()
         }
         binding.maxSpeed.addTextChangedListener {
-            speed[1] = binding.maxSpeed.text.toString().toFloat()
+            if(binding.maxSpeed.text.toString() == "") speed[1] = -1f
+            else speed[1] = binding.maxSpeed.text.toString().toFloat()
         }
 
         binding.minTemperature.addTextChangedListener {
-            temperature[0] = binding.minTemperature.text.toString().toFloat()
+            if(binding.minTemperature.text.toString() == "") temperature[0] = -1f
+            else temperature[0] = binding.minTemperature.text.toString().toFloat()
         }
         binding.maxTemperature.addTextChangedListener {
-            temperature[1] = binding.maxTemperature.text.toString().toFloat()
+            if(binding.maxTemperature.text.toString() == "") temperature[1] = -1f
+            else temperature[1] = binding.maxTemperature.text.toString().toFloat()
         }
 
         binding.saveButton.setOnClickListener {

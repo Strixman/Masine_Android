@@ -66,8 +66,24 @@ abstract class Simulation(val vehicleName: String, private val startLocation: La
                             while(simulating && d < dist){
                                 location = LatLng(firstPoint.latitude() - dirVec1.latitude() * d,firstPoint.longitude() - dirVec1.longitude() * d)
 
-                                speed = minSpeed + rng.nextFloat() * (maxSpeed-minSpeed)
-                                temperature = minTemperature + rng.nextFloat() * (maxTemperature-minTemperature)
+                                if(speed < maxSpeed / 2f || rng.nextBoolean()){
+                                    speed += rng.nextFloat() * 3f
+                                }
+                                else{
+                                    speed -= rng.nextFloat() * 3f
+                                }
+                                if(speed < minSpeed) speed = minSpeed
+                                else if(speed > maxSpeed) speed = maxSpeed
+
+                                if(temperature < maxTemperature / 2f ||rng.nextBoolean()){
+                                    temperature += rng.nextFloat()
+                                }
+                                else{
+                                    temperature -= rng.nextFloat()
+                                }
+                                if(temperature < minTemperature) temperature = minTemperature
+                                else if(temperature > maxTemperature) temperature = maxTemperature
+
                                 rpm = speed * 60
 
                                 onUpdate(LocalDateTime.now(), location, speed, temperature, rpm)

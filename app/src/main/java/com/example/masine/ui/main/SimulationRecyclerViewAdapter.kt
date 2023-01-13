@@ -36,8 +36,15 @@ class SimulationRecyclerViewAdapter(private val activity: Activity, private val 
         holder.temperature.withTremble = false
         holder.rpm.withTremble = false
 
+        holder.speed.minSpeed = simulation.minSpeed
+        holder.temperature.minSpeed = simulation.minTemperature
+        holder.rpm.minSpeed = simulation.minSpeed * 60
 
-        //holder.location.text = simulation.location.toString()
+        holder.speed.maxSpeed = simulation.maxSpeed
+        holder.temperature.maxSpeed = simulation.maxTemperature
+        holder.rpm.maxSpeed = simulation.maxSpeed * 60
+
+        holder.vehicleName.text = simulation.vehicleName
         holder.location.text = "Location: ${String.format("%.5f", simulation.location.latitude)}, ${String.format("%.5f", simulation.location.longitude)}"
         holder.speed.setSpeedAt(simulation.speed)
         holder.temperature.setSpeedAt(simulation.temperature)
@@ -52,6 +59,7 @@ class SimulationRecyclerViewAdapter(private val activity: Activity, private val 
         val speed = binding.speed
         val temperature = binding.temperature
         val rpm = binding.rpm
+        val vehicleName = binding.name
     }
 
 }

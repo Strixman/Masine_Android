@@ -109,16 +109,19 @@ class Application : android.app.Application() {
 
     fun addSimulation(vehicleName: String, startLocation: LatLng, endLocation: LatLng, minSpeed: Float, maxSpeed: Float, minTemperature: Float, maxTemperature: Float) : Boolean {
         val simulation = object: Simulation(vehicleName, startLocation, endLocation, minSpeed, maxSpeed, minTemperature, maxTemperature){
-            override fun onUpdate(timestamp: LocalDateTime, location: LatLng, speed : Float, temperature: Float, rpm : Float) {
+            override fun onUpdate(time: LocalDateTime, location: LatLng, speed : Float, temperature: Float, rpm : Float) {
                 if(mqttClient.isConnected){
-                    val messageLocation = MqttMessage(("${vehicleName}$${timestamp}$${location.latitude}$${location.longitude}").toByteArray())
+                    val messageLocation = MqttMessage(("${vehicleName}$${time}$${location.latitude}$${location.longitude}").toByteArray())
                     mqttClient.publish("VehicleLocation", messageLocation, null, null)
 
-                    val messageSpeed = MqttMessage(("${vehicleName}$${timestamp}$${speed}").toByteArray())
+                    val messageSpeed = MqttMessage(("${vehicleName}$${time}$${speed}").toByteArray())
                     mqttClient.publish("VehicleSpeed", messageSpeed, null, null)
 
-                    val messageTemperature = MqttMessage(("${vehicleName}$${timestamp}$${temperature}").toByteArray())
+                    val messageTemperature = MqttMessage(("${vehicleName}$${time}$${temperature}").toByteArray())
                     mqttClient.publish("VehicleTemperature", messageTemperature, null, null)
+
+                    val messageRPM = MqttMessage(("${vehicleName}$${time}$${temperature}").toByteArray())
+                    mqttClient.publish("VehicleRPM", messageRPM, null, null)
                 }
             }
 
