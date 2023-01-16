@@ -16,6 +16,7 @@
         android:background="@drawable/my_button"
         android:elevation="16dp"
         android:paddingHorizontal="5dp"
+
         android:text="foobar"
         android:textAllCaps="false"
         android:textColor="#24292E"
@@ -45,10 +46,10 @@
         android:layout_width="302dp"
         android:layout_height="288dp"
         android:layout_marginTop="32dp"
-        app:borderColor="#3C3C3C"
+        app:borderColor="@color/backgroundLight"
         app:borderSize="14dp"
 
-        app:fillColor="#1668AA"
+        app:fillColor="@color/primary"
         app:layout_constraintEnd_toEndOf="@+id/speedBackground"
         app:layout_constraintStart_toStartOf="@+id/speedBackground"
         app:layout_constraintTop_toTopOf="@+id/speedBackground"
@@ -72,6 +73,7 @@
         app:sv_endDegree="360"
         app:sv_maxSpeed="170"
         app:sv_minSpeed="50"
+        app:sv_speedometerBackColor="@color/backgroundLight"
         app:sv_speedTextColor="@color/white"
         app:sv_speedTextPosition="BOTTOM_CENTER"
         app:sv_speedometerWidth="20dp"
@@ -83,6 +85,7 @@
     <com.github.anastr.speedviewlib.TubeSpeedometer
         android:id="@+id/rpm"
         android:layout_width="0dp"
+        app:sv_speedometerBackColor="@color/backgroundLight"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"

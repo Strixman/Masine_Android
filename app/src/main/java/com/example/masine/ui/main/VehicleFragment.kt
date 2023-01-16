@@ -38,7 +38,6 @@ class VehicleFragment : Fragment() {
 
         binding.temperature.withTremble = false
         binding.rpm.withTremble = false
-
         binding.vehicleName.text = obd.vehicleName
 
         if(obd.connected){
