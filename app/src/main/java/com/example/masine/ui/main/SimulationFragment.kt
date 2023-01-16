@@ -35,8 +35,6 @@ class SimulationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        view.findNavController().popBackStack(R.id.SimulationAddFragment, true)
-
         binding.addSimulationButton.setOnClickListener {
             (activity as MainActivity?)!!.replaceFragment(SimulationAddFragment())
         }
@@ -46,12 +44,4 @@ class SimulationFragment : Fragment() {
             adapter = SimulationRecyclerViewAdapter(requireActivity(), app.simulations.simulations)
         }
     }
-
-//    private fun replaceFragment(fragment: Fragment) {
-//        val navOptions = NavOptions.Builder()
-//            .setPopUpTo(R.id.SimulationFragment, true)
-//            .build()
-//
-//        view?.findNavController()?.navigate(R.id.SimulationAddFragment, null, navOptions)
-//    }
 }

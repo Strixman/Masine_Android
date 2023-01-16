@@ -145,8 +145,6 @@ class SimulationAddFragment : Fragment(), OnMapReadyCallback  {
                 return@setOnClickListener
             }
 
-//            val action = SimulationAddFragmentDirections.actionMapsFragmentToSimulationFragment();
-//            view.findNavController().navigate(action)
             (activity as MainActivity?)!!.replaceFragment(SimulationFragment())
         }
 
