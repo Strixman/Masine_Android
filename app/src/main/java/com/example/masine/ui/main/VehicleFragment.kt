@@ -36,7 +36,6 @@ class VehicleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.speed.withTremble = false
         binding.temperature.withTremble = false
         binding.rpm.withTremble = false
 
@@ -96,14 +95,12 @@ class VehicleFragment : Fragment() {
 
     private fun onUpdateUI(speed : Float, temperature : Float, rpm: Int){
         requireActivity().runOnUiThread{
-            binding.speed.setSpeedAt(speed)
             binding.temperature.setSpeedAt(temperature)
             binding.rpm.setSpeedAt(rpm.toFloat())
         }
     }
     private fun onStopUI(){
         requireActivity().runOnUiThread {
-            binding.speed.setSpeedAt(0f)
             binding.temperature.setSpeedAt(0f)
             binding.rpm.setSpeedAt(0f)
 
