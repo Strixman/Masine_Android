@@ -16,7 +16,7 @@
         android:background="@drawable/my_button"
         android:elevation="16dp"
         android:paddingHorizontal="5dp"
-
+        android:fontFamily="@font/cera_pro_bold"
         android:text="foobar"
         android:textAllCaps="false"
         android:textColor="#24292E"
