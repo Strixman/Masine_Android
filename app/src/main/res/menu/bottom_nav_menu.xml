@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="Home" />
+    <item
+        android:id="@+id/navigation_vehicle"
+        android:icon="@drawable/ic_baseline_bluetooth_drive_24"
+        android:title="Vehicle" />
+    <item
+        android:id="@+id/navigation_simulations"
+        android:icon="@drawable/ic_baseline_view_in_ar_24"
+        android:title="Simulations" />
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="Settings" />
+</menu>

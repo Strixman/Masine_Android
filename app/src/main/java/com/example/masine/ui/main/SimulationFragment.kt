@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.masine.MainActivity
 import com.example.masine.R
 import com.example.masine.databinding.FragmentSimulationBinding
 import com.example.masine.scripts.Application
@@ -34,11 +35,10 @@ class SimulationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findNavController().popBackStack(R.id.SimulationAddFragment, true)
+//        view.findNavController().popBackStack(R.id.SimulationAddFragment, true)
 
         binding.addSimulationButton.setOnClickListener {
-            val action = SimulationFragmentDirections.actionSimulationFragmentToSimulationAddFragment();
-            view.findNavController().navigate(action)
+            (activity as MainActivity?)!!.replaceFragment(SimulationAddFragment())
         }
 
         with(binding.list) {
@@ -46,4 +46,12 @@ class SimulationFragment : Fragment() {
             adapter = SimulationRecyclerViewAdapter(requireActivity(), app.simulations.simulations)
         }
     }
+
+//    private fun replaceFragment(fragment: Fragment) {
+//        val navOptions = NavOptions.Builder()
+//            .setPopUpTo(R.id.SimulationFragment, true)
+//            .build()
+//
+//        view?.findNavController()?.navigate(R.id.SimulationAddFragment, null, navOptions)
+//    }
 }

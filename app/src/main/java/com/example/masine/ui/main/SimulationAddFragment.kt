@@ -12,6 +12,7 @@ import android.widget.SearchView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.example.masine.MainActivity
 import com.example.masine.databinding.FragmentSimulationAddBinding
 import com.example.masine.scripts.Application
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -144,8 +145,9 @@ class SimulationAddFragment : Fragment(), OnMapReadyCallback  {
                 return@setOnClickListener
             }
 
-            val action = SimulationAddFragmentDirections.actionMapsFragmentToSimulationFragment();
-            view.findNavController().navigate(action)
+//            val action = SimulationAddFragmentDirections.actionMapsFragmentToSimulationFragment();
+//            view.findNavController().navigate(action)
+            (activity as MainActivity?)!!.replaceFragment(SimulationFragment())
         }
 
         val mapFragment = childFragmentManager.findFragmentById(binding.map.id) as SupportMapFragment?
