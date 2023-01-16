@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient"
+    android:background="@color/backgroundLight"
     tools:context=".ui.main.SimulationFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -21,19 +21,27 @@
         app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/fragment_simulation_item" />
 
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/addSimulationButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/button_background"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/my_button"
+        android:elevation="16dp"
+        android:fontFamily="@font/cera_pro_bold"
         android:paddingHorizontal="5dp"
-        android:text="NEW SIMULATION"
-        android:textColor="#000000"
+        android:text="New Simulation"
+        android:textAllCaps="false"
+        android:textColor="#24292E"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/list" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

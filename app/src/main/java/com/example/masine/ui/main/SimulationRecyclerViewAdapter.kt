@@ -1,15 +1,11 @@
 package com.example.masine.ui.main
 
 import android.app.Activity
-import android.content.Context
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import com.example.masine.databinding.FragmentSimulationItemBinding
 import com.example.masine.scripts.Simulation
-import java.util.*
 
 class SimulationRecyclerViewAdapter(private val activity: Activity, private val simulations: MutableList<Simulation>) : RecyclerView.Adapter<SimulationRecyclerViewAdapter.ViewHolder>() {
 
@@ -32,21 +28,20 @@ class SimulationRecyclerViewAdapter(private val activity: Activity, private val 
             }
         }
 
-        holder.speed.withTremble = false
         holder.temperature.withTremble = false
         holder.rpm.withTremble = false
 
-        holder.speed.minSpeed = simulation.minSpeed
         holder.temperature.minSpeed = simulation.minTemperature
         holder.rpm.minSpeed = simulation.minSpeed * 60
 
-        holder.speed.maxSpeed = simulation.maxSpeed
         holder.temperature.maxSpeed = simulation.maxTemperature
         holder.rpm.maxSpeed = simulation.maxSpeed * 60
 
         holder.vehicleName.text = simulation.vehicleName
-        holder.location.text = "Location: ${String.format("%.5f", simulation.location.latitude)}, ${String.format("%.5f", simulation.location.longitude)}"
-        holder.speed.setSpeedAt(simulation.speed)
+//        holder.location.text = "Location: ${String.format("%.5f", simulation.location.latitude)}, ${String.format("%.5f", simulation.location.longitude)}"
+        holder.latitude.text = String.format("%.5f", simulation.location.latitude)
+        holder.longitude.text = String.format("%.5f", simulation.location.longitude)
+        holder.speed.setSpeed(simulation.speed.toInt(), 1000)
         holder.temperature.setSpeedAt(simulation.temperature)
         holder.rpm.setSpeedAt(simulation.rpm)
 
@@ -55,8 +50,9 @@ class SimulationRecyclerViewAdapter(private val activity: Activity, private val 
     override fun getItemCount(): Int = simulations.size
 
     inner class ViewHolder(binding: FragmentSimulationItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        val location = binding.location
-        val speed = binding.speed
+        val latitude = binding.xValue
+        val longitude = binding.yValue
+        val speed = binding.speedometer
         val temperature = binding.temperature
         val rpm = binding.rpm
         val vehicleName = binding.name
