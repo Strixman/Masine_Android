@@ -13,13 +13,13 @@ import com.example.masine.scripts.Application
 import com.example.masine.databinding.FragmentVehicleBinding
 import com.example.masine.scripts.OBD
 import com.google.android.material.snackbar.Snackbar
+import me.ibrahimsn.lib.Speedometer
 
 
 @SuppressLint("MissingPermission")
 class VehicleFragment : Fragment() {
     private lateinit var app: Application
     private lateinit var binding: FragmentVehicleBinding
-
     private lateinit var obd : OBD
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,12 +97,14 @@ class VehicleFragment : Fragment() {
         requireActivity().runOnUiThread{
             binding.temperature.setSpeedAt(temperature)
             binding.rpm.setSpeedAt(rpm.toFloat())
+            binding.speedometer.setSpeed(speed.toInt(), 1000)
         }
     }
     private fun onStopUI(){
         requireActivity().runOnUiThread {
             binding.temperature.setSpeedAt(0f)
             binding.rpm.setSpeedAt(0f)
+            binding.speedometer.setSpeed(0, 1000)
 
             if (!obd.connected) binding.obdButton.text = "CONNECT"
             else binding.obdButton.text = "START"
