@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/cardview_dark_background"
     tools:context=".VehicleFragment">
 
     <androidx.appcompat.widget.AppCompatButton
@@ -40,6 +40,42 @@
         app:maxSpeed="130"
         app:metricText="km/h"
         app:textColor="#f5f5f5" />
+
+    <com.github.anastr.speedviewlib.TubeSpeedometer
+        android:id="@+id/temperature"
+        android:layout_width="155dp"
+        android:layout_height="134dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.155"
+        app:layout_constraintStart_toStartOf="parent"
+        app:sv_endDegree="360"
+        app:sv_maxSpeed="180"
+        app:sv_speedTextColor="@color/white"
+        app:sv_speedTextPosition="CENTER"
+        app:sv_speedometerWidth="20dp"
+        app:sv_startDegree="180"
+        app:sv_textColor="@color/white"
+        app:sv_unit="°C"
+        app:sv_unitTextColor="@color/white"
+        tools:layout_editor_absoluteY="187dp" />
+
+    <com.github.anastr.speedviewlib.TubeSpeedometer
+        android:id="@+id/temperature"
+        android:layout_width="177dp"
+        android:layout_height="137dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.843"
+        app:layout_constraintStart_toStartOf="parent"
+        app:sv_endDegree="360"
+        app:sv_maxSpeed="180"
+        app:sv_speedTextColor="@color/white"
+        app:sv_speedTextPosition="CENTER"
+        app:sv_speedometerWidth="20dp"
+        app:sv_startDegree="180"
+        app:sv_textColor="@color/white"
+        app:sv_unit="°C"
+        app:sv_unitTextColor="@color/white"
+        tools:layout_editor_absoluteY="187dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
