@@ -8,27 +8,12 @@
     tools:context=".ui.main.SettingsFragment">
 
     <TextView
-        android:id="@+id/textView13"
-        android:fontFamily="@font/cera_pro_bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Settings"
-        android:textColor="@color/offWhite"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/guideline8"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/textView14"
+        android:fontFamily="@font/cera_pro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Vehicle name:"
         android:textColor="@color/offWhite"
-        android:fontFamily="@font/cera_pro_light"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
         app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
@@ -37,14 +22,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.10" />
+        app:layout_constraintGuide_percent="0.04" />
 
     <EditText
         android:id="@+id/vehicleNameSettingsInput"
         android:layout_width="0dp"
+        android:fontFamily="@font/cera_pro_light"
         android:layout_height="wrap_content"
-        android:background="@drawable/input_background"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/my_card"
         android:inputType="textPersonName"
+        android:textColor="@color/offWhite"
         android:padding="10dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline7"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
@@ -55,15 +43,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.90" />
+        app:layout_constraintGuide_percent="0.96" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.3
-" />
+        app:layout_constraintGuide_percent="0.04" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/saveButton"
@@ -88,7 +75,7 @@
 
     <TextView
         android:id="@+id/textView16"
-        android:fontFamily="@font/cera_pro_light"
+        android:fontFamily="@font/cera_pro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -100,8 +87,11 @@
     <EditText
         android:id="@+id/mqttAddressInput"
         android:layout_width="0dp"
+        android:textColor="@color/offWhite"
+        android:fontFamily="@font/cera_pro_light"
         android:layout_height="wrap_content"
-        android:background="@drawable/input_background"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/my_card"
         android:inputType="textPersonName"
         android:padding="10dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline7"

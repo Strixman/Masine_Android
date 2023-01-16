@@ -41,20 +41,20 @@ class VehicleFragment : Fragment() {
         binding.vehicleName.text = obd.vehicleName
 
         if(obd.connected){
-            binding.obdButton.text = "START"
+            binding.obdButton.text = "Start"
         }
         else{
-            binding.obdButton.text = "CONNECT"
+            binding.obdButton.text = "Connect"
         }
 
         binding.obdButton.setOnClickListener {
             //Start reading
             if(obd.connected && !obd.running) {
                 if(!obd.start(this::onUpdateUI, this::onStopUI, this::onStartUI)){
-                    binding.obdButton.text = "START"
+                    binding.obdButton.text = "Start"
                     onError("Failed to start reading")
                 }
-                else binding.obdButton.text = "STARTING"
+                else binding.obdButton.text = "Starting"
             }
             //Stop reading
             else if(obd.connected && obd.running){
@@ -73,16 +73,16 @@ class VehicleFragment : Fragment() {
                     val device = devices.elementAt(index)
                     dialog.dismiss()
                     if(!obd.connect(device)){
-                        binding.obdButton.text = "CONNECT"
+                        binding.obdButton.text = "Connect"
                         onError("Failed to connect to device")
                     }
-                    else binding.obdButton.text = "START"
+                    else binding.obdButton.text = "Start"
                 }.create()
                 builder.setOnCancelListener {
-                    binding.obdButton.text = "CONNECT"
+                    binding.obdButton.text = "Connect"
                 }
                 builder.show()
-                binding.obdButton.text = "CONNECTING"
+                binding.obdButton.text = "Connecting"
             }
         }
     }
@@ -105,13 +105,13 @@ class VehicleFragment : Fragment() {
             binding.rpm.setSpeedAt(0f)
             binding.speedometer.setSpeed(0, 1000)
 
-            if (!obd.connected) binding.obdButton.text = "CONNECT"
-            else binding.obdButton.text = "START"
+            if (!obd.connected) binding.obdButton.text = "Connect"
+            else binding.obdButton.text = "Start"
         }
     }
     private fun onStartUI(){
         requireActivity().runOnUiThread {
-            binding.obdButton.text = "STOP"
+            binding.obdButton.text = "Stop"
         }
     }
     private fun onError(message: String){

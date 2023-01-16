@@ -56,21 +56,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!--  tukaj  -->
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toTopOf="@+id/saveButton"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/verticalGuideline"
-                tools:context=".SimulationAddFragment" />
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/saveButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/verticalGuideline"
+        tools:context=".SimulationAddFragment" />
 
     <SearchView
         android:id="@+id/searchLocation"
@@ -78,8 +77,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/input_background"
+        android:background="@drawable/my_card"
         app:iconifiedByDefault="false"
+        android:fontFamily="@font/cera_pro_light"
+        android:textColor="@color/offWhite"
         app:layout_constraintBottom_toTopOf="@+id/verticalGuideline"
         app:layout_constraintEnd_toStartOf="@+id/searchButton"
         app:layout_constraintHorizontal_bias="0.5"
@@ -124,12 +125,13 @@
     <EditText
         android:id="@+id/minSpeed"
         android:layout_width="wrap_content"
+        android:fontFamily="@font/cera_pro_light"
         android:layout_height="wrap_content"
-        android:background="@drawable/input_background"
+        android:background="@drawable/my_card"
         android:ems="3"
         android:inputType="number"
         android:padding="5dp"
-        android:textColor="#000000"
+        android:textColor="@color/offWhite"
         app:layout_constraintBottom_toBottomOf="@+id/textView7"
         app:layout_constraintEnd_toStartOf="@+id/textView8"
         app:layout_constraintHorizontal_bias="0.5"
@@ -138,13 +140,14 @@
 
     <EditText
         android:id="@+id/maxSpeed"
+        android:fontFamily="@font/cera_pro_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/input_background"
+        android:background="@drawable/my_card"
         android:ems="3"
         android:inputType="number"
         android:padding="5dp"
-        android:textColor="#000000"
+        android:textColor="@color/offWhite"
         app:layout_constraintBottom_toBottomOf="@+id/textView8"
         app:layout_constraintEnd_toEndOf="@id/verticalGuidelineEnd"
         app:layout_constraintHorizontal_bias="0.5"
@@ -192,13 +195,14 @@
 
     <EditText
         android:id="@+id/maxTemperature"
+        android:fontFamily="@font/cera_pro_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/input_background"
+        android:background="@drawable/my_card"
         android:ems="3"
         android:inputType="number"
         android:padding="5dp"
-        android:textColor="#000000"
+        android:textColor="@color/offWhite"
         app:layout_constraintBottom_toBottomOf="@+id/textView9"
         app:layout_constraintEnd_toEndOf="@+id/verticalGuidelineEnd"
         app:layout_constraintHorizontal_bias="0.5"
@@ -220,13 +224,14 @@
 
     <EditText
         android:id="@+id/minTemperature"
+        android:fontFamily="@font/cera_pro_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/input_background"
+        android:background="@drawable/my_card"
         android:ems="3"
         android:inputType="number"
         android:padding="5dp"
-        android:textColor="#000000"
+        android:textColor="@color/offWhite"
         app:layout_constraintBottom_toBottomOf="@+id/minLabel"
         app:layout_constraintEnd_toStartOf="@+id/textView9"
         app:layout_constraintHorizontal_bias="0.5"
@@ -259,15 +264,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
+        android:fontFamily="@font/cera_pro_light"
         android:id="@+id/vehicleNameInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:background="@drawable/input_background"
+        android:background="@drawable/my_card"
         android:ems="10"
         android:inputType="textPersonName"
         android:padding="5dp"
-        android:textColor="#000000"
+        android:textColor="@color/offWhite"
         app:layout_constraintBottom_toBottomOf="@+id/nameLabel"
         app:layout_constraintEnd_toEndOf="@+id/maxSpeed"
         app:layout_constraintStart_toEndOf="@+id/verticalBarrier"
