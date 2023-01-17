@@ -145,7 +145,6 @@ class SimulationAddFragment : Fragment(), OnMapReadyCallback  {
                 return@setOnClickListener
             }
 
-            (activity as MainActivity?)!!.replaceFragment(SimulationFragment())
         }
 
         val mapFragment = childFragmentManager.findFragmentById(binding.map.id) as SupportMapFragment?
