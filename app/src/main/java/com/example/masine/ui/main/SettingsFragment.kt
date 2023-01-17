@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import com.example.masine.MainActivity
 import com.example.masine.R
 import com.example.masine.databinding.FragmentMainBinding
 import com.example.masine.databinding.FragmentSettingsBinding
@@ -44,8 +45,7 @@ class SettingsFragment : Fragment() {
             app.setStorage("address", binding.mqttAddressInput.text.toString())
             app.setStorage("vehicleName", binding.vehicleNameSettingsInput.text.toString())
 
-            val action = SettingsFragmentDirections.actionSettingsFragmentToMainFragment()
-            view.findNavController().navigate(action)
+            (activity as MainActivity?)!!.replaceFragment(SettingsFragment())
         }
     }
 
