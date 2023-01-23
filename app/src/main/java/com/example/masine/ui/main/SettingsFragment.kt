@@ -73,21 +73,8 @@ class SettingsFragment : Fragment() {
         binding.getButton.setOnClickListener {
             val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
-            /*val photo: File
-            try {
-                val outFile = requireContext().cacheDir;
-                photo = File.createTempFile("picture", ".jpg", outFile)
-
-                //photo = this.createTemporaryFile("picture", ".jpg")!!
-                //photo.delete()
-            } catch (e: Exception) {
-                throw e
-                onError("Cannot create tmp file!")
-                return@setOnClickListener
-            }*/
             val photo = createEmptyImageTempFile(requireContext())
             imageUri = FileProvider.getUriForFile(requireActivity(), "com.example.masine.provider", photo);
-            //imageUri = Uri.fromFile(photo)
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
 
             resultLauncher.launch(cameraIntent)
@@ -119,9 +106,8 @@ class SettingsFragment : Fragment() {
             //val data = result.data
             //val image : Bitmap = data?.extras?.get("data") as Bitmap
 
-            Log.d("test", image!!.height.toString())
             val baos = ByteArrayOutputStream()
-            image!!.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            image!!.compress(Bitmap.CompressFormat.PNG, 70, baos);
             val b = baos.toByteArray();
 
             val executor = Executors.newSingleThreadExecutor();
@@ -139,7 +125,7 @@ class SettingsFragment : Fragment() {
                     val res = client.newCall(request).execute().body!!.string();
 
                     val text = JSONObject(res).getString("text")
-                    if(text != "" || text.length < 4) {
+                    if(text == "" || text.length < 4) {
                         handler.post {
                             onError("Invalid response!")
                         }
