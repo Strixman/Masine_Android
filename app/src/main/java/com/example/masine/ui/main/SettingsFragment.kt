@@ -94,7 +94,7 @@ class SettingsFragment : Fragment() {
                     b.toRequestBody("image/*jpg".toMediaTypeOrNull(), 0, b.size)
                 ).build()
 
-                val request = Request.Builder().url("http://${app.getStorage("address").split("//")[1]}/licence_plate").post(requestBody).build()
+                val request = Request.Builder().url("http://${app.getStorage("address").split("//")[1].split(':')[0]}:6000/licence_plate").post(requestBody).build()
 
                 try {
                     val res = client.newCall(request).execute().body!!.string();
