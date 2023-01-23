@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".scripts.Application"
@@ -21,6 +22,7 @@
         android:roundIcon="@mipmap/my_launcher_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Masine"
+        android:usesCleartextTraffic="true"
         >
 
         <meta-data

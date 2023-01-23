@@ -27,14 +27,14 @@
     <EditText
         android:id="@+id/vehicleNameSettingsInput"
         android:layout_width="0dp"
-        android:fontFamily="@font/cera_pro_light"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/my_card"
+        android:fontFamily="@font/cera_pro_light"
         android:inputType="textPersonName"
-        android:textColor="@color/offWhite"
         android:padding="10dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        android:textColor="@color/offWhite"
+        app:layout_constraintEnd_toStartOf="@+id/getButton"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
@@ -72,6 +72,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/getButton"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/my_button"
+        android:elevation="16dp"
+        android:fontFamily="@font/cera_pro_bold"
+        android:paddingHorizontal="5dp"
+        android:text="Get"
+        android:textAllCaps="false"
+        android:textColor="@color/backgroundDark"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/vehicleNameSettingsInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/vehicleNameSettingsInput" />
 
     <TextView
         android:id="@+id/textView16"
