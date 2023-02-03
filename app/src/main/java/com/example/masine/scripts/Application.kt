@@ -81,7 +81,7 @@ class Application : android.app.Application() {
                     val messageTemperature = MqttMessage(("${vehicleName}$${time}$${temperature}").toByteArray())
                     mqttClient.publish("VehicleTemperature", messageTemperature, null, null)
 
-                    val messageRPM = MqttMessage(("${vehicleName}$${time}$${temperature}").toByteArray())
+                    val messageRPM = MqttMessage(("${vehicleName}$${time}$${rpm}").toByteArray())
                     mqttClient.publish("VehicleRPM", messageRPM, null, null)
                 }
             }
